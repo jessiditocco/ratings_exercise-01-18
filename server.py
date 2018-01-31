@@ -34,6 +34,15 @@ def get_users():
     return render_template('user_list.html', users=users)
 
 
+@app.route('/users/<int:user_id>')
+def get_user_info(user_id):
+    """Show list of user information."""
+
+    user = User.query.get(user_id)
+
+    return render_template('user_info.html', user=user)
+
+
 @app.route('/register_user', methods=['POST'])
 def register_user():
     """Registers new user."""
@@ -81,7 +90,9 @@ def show_login():
 
 @app.route('/login', methods=['POST'])
 def login_user():
-    """Logs the user into their account."""
+    """Logs the user into their account.
+        Sends the user to their user page if login succesful.
+        Redirects user to login page if unsuccesful login."""
 
     email = request.form.get("email")
     password = request.form.get("password")
@@ -94,20 +105,12 @@ def login_user():
             # add user's id to the session
         session['user_id'] = user.user_id
         flash('Logged in successfully.')
-        return redirect('/')
+        return redirect('/users/{}'.format(user.user_id))
     except:
         flash('Invalid email/password combination.')
         return redirect('/login')
 
 
-
-# @html.route('/users/<user_id>')
-# def get_user_info():
-#     """Show list of user information."""
-
-#     user = User.query.get(user_id)
-
-#     return render_template('user_list.html', users=users)
 
 
 if __name__ == "__main__":
