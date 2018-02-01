@@ -2,11 +2,18 @@
 {% block content %}
 <h2>Login</h2>
 
-<form action="/login" method="POST">
+<div class="w3-card-4">
+
+<div class="w3-container w3-green">
+  <h2>Header</h2>
+</div>
+
+<form action="/login" class="w3-container" method="POST">
     <div>Email Address <input type="text" name="email" required></div> 
     <div>Password <input type="password" name="password"></div> 
     <div><input type="submit" value="submit"></div>
 </form>
+</div>
 
 <a href='/register'>Register a New Account</a>
 

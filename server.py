@@ -1,5 +1,6 @@
 """Movie Ratings."""
 
+import datetime
 from jinja2 import StrictUndefined
 
 from flask import (flash, Flask, redirect, render_template, request, session)
@@ -41,6 +42,55 @@ def get_user_info(user_id):
     user = User.query.get(user_id)
 
     return render_template('user_info.html', user=user)
+
+
+@app.route('/movies')
+def get_movies():
+    """Show list of movies."""
+
+    movies = Movie.query.order_by(Movie.title).all()
+
+    return render_template('movie_list.html', movies=movies)
+
+
+@app.route('/movies/<int:movie_id>')
+def get_movie_info(movie_id):
+    """Show list of movie information."""
+
+    movie = Movie.query.get(movie_id)
+
+    return render_template('movie_info.html', movie=movie)
+
+
+@app.route('/rate_movie', methods=['POST'])
+def rate_movie():
+    """Rate a movie."""
+
+    score = request.form.get("rating")
+    movie_id = request.form.get("movie_id")
+    user_id = session.get("user_id")
+    timestamp = datetime.datetime.now()
+
+    if "user_id" not in session:
+        flash("Hey, you're not logged in!")
+        return redirect("/login")
+
+    rating = Rating.query.filter_by(movie_id=movie_id,
+                                    user_id=user_id).first()
+    if not rating:
+        # Only add a rating if the user is logged in
+        rating = Rating(movie_id=movie_id,
+                        user_id=user_id,
+                        score=score,
+                        timestamp=timestamp)
+    else:
+        rating.score = score
+
+    db.session.add(rating)
+    db.session.commit()
+    flash("Successfully rated movie.")
+
+    return redirect("/movies/{}".format(movie_id))
 
 
 @app.route('/register_user', methods=['POST'])
@@ -111,6 +161,15 @@ def login_user():
         return redirect('/login')
 
 
+@app.route('/logout')
+def logout():
+    """Logs user out."""
+
+    if "user_id" in session:
+        del session["user_id"]
+
+    flash("Logged out.")
+    return redirect("/")
 
 
 if __name__ == "__main__":

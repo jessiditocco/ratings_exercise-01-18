@@ -1,0 +1,13 @@
+.logout {
+    width: 100%;
+    text-align: right;
+}
+
+.table-hover:hover {
+    background-color: #eee;
+}
+
+.float-right {
+    text-align: right;
+    color: #f00;
+}

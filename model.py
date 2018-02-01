@@ -23,7 +23,7 @@ class User(db.Model):
     age = db.Column(db.Integer, nullable=True)
     zipcode = db.Column(db.String(15), nullable=True)
 
-    ratings = db.relationship('Rating')
+    # ratings = db.relationship('Rating')
 
     def __repr__(self):
         """Provide helpful representation when printed."""
@@ -43,7 +43,7 @@ class Movie(db.Model):
     released_at = db.Column(db.DateTime(), nullable=True)
     imdb_url = db.Column(db.String(200), nullable=True)
 
-    ratings = db.relationship('Rating')
+    # ratings = db.relationship('Rating')
 
     def __repr__(self):
         """Provide helpful representation when printed."""
@@ -62,8 +62,12 @@ class Rating(db.Model):
     score = db.Column(db.Integer, nullable=False)
     timestamp = db.Column(db.DateTime(), nullable=False)
 
-    movie = db.relationship('Movie')
-    user = db.relationship('User')
+    movie = db.relationship('Movie',
+                            backref=db.backref('ratings',
+                                               order_by=user_id))
+    user = db.relationship('User',
+                           backref=db.backref('ratings',
+                                              order_by=user_id))
 
     def __repr__(self):
         """Provide helpful representation when printed."""

@@ -3,9 +3,30 @@
     <title>Ratings</title>
     <!-- <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}"> -->
     <link rel=stylesheet type=text/css href="/static/style.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 </head>
 <body>
+  <div class="w3-bar w3-border w3-teal w3-card w3-round-xlarge">
+    <a href="/" class="w3-bar-item w3-button w3-dark-grey">Home</a>
+    <a href="/movies" class="w3-bar-item w3-button">Movies</a>
+    <a href="/users" class="w3-bar-item w3-button">Users</a>
+    {% if "user_id" not in session %}
+      <a href="/login" class="w3-bar-item w3-button">Login</a>
+      <a href="/register" class="w3-bar-item w3-button">Register</a>
+    {% endif %}
+    {% if "user_id" in session %}
+    <a href="/logout" class="w3-bar-item w3-button w3-green w3-right">Logout</a>
+    {% endif %}
+  </div>
+
+  <div class="nav">
     Ratings
+  </div>
+ <!--  {% if "user_id" in session %}
+    <div class="logout">
+      <span class="float-right"><a href="/logout">Logout</a></span>
+    </div>
+  {% endif %} -->
     <hr>
     {% with messages = get_flashed_messages() %}
       {% if messages %}

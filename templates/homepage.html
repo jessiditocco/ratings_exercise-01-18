@@ -8,11 +8,13 @@
 <h2>Users</h2>
 <p><a href="/users">View all users</a></p>
 
-<h2>Register:</h2>
-<p><a href="/register">Register An Account</a></p>
+{% if "user_id" not in session %}
+    <h2>Register:</h2>
+    <p><a href="/register">Register An Account</a></p>
 
-<h2>Login:</h2>
-<p><a href="/login">Login</a></p>
+    <h2>Login:</h2>
+    <p><a href="/login">Login</a></p>
+{% endif %}
 
 
 {% endblock %}

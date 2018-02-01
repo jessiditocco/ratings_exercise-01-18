@@ -1,0 +1,29 @@
+<!---WORKING ON MOVIE LIST PAGE -->
+
+{% extends 'base.html' %}
+{% block content %}
+<h2>Movie List</h2>
+
+<ul>
+    <table>
+        <thead>
+            <th>Movie Title</th>
+            <th>Release Date</th>
+            <th>IMDB URL</th>
+        </thead>
+
+    {% for movie in movies %}
+    <tr class="table-hover">
+        <td>
+            <a href="/movies/{{movie.movie_id}}">
+                {{ movie.title }}
+            </a>
+        </td>
+        <td>{{ movie.released_at }}</td>
+        <td><a href="{{ movie.imdb_url }}">Link to IMDB</a></td>
+
+    </tr>
+    {% endfor %}
+</ul>
+
+{% endblock %}
